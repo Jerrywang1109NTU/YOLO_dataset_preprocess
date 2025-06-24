@@ -1,10 +1,10 @@
 # YOLO_dataset_preprocess  
 
-## build requirement  
+## Build Requirement  
 Python requirement: pip install -r requirement.txt
 
-## files statement
-### parity* files: to generate the dataset in which the labels are chosen according to parity  
+## Files Statement
+### Parity Prefix Files: to generate the dataset in which the labels are chosen according to parity  
 - Firstly, the labels are chosen from the concentric lebel dataset (with suffix _layer in dataset_labels), and the according label groups are generated in txt file with suffix _0 and _1 to distinguish odd and even. In this part, one can change the parameters w_l and h_l to control the w and h of the label box.
 
 - Secondly, the images (from dataset_unmod/data_unenh_pruned) are modified according to the labels chosen, where the label positions are replaced with patches of background pixels. One can change the parameters w_g and h_b to control the size of the patches.
@@ -18,7 +18,7 @@ Run parity_dataset_gen.py to run the above steps sequentially.
 </p>
 
 
-### random* files: to generate the dataset in which the labels are chosen according to parity  
+### Random Prefix Files: to generate the dataset in which the labels are chosen according to parity  
 - Firstly, the labels are chosen randomly from the lebel dataset that contains all labels of bright or gray (with suffix _all in dataset_labels), and the according label groups are generated in txt file with same prefix and different suffix, meaning same id but different batches. In this part, one can change the parameters w_l and h_l to control the w and h of the label box. Also, the number of bright and gray boxes, distance between boxes, and number of batches of label groups can be modified. 
 
 - Secondly, the unmodified images (from dataset_unmod/data_unenh_pruned) are modified according to the labels chosen, where the label positions are replaced with patches (from patches_texture) of background pixels. One can change the parameters w_g and h_b to control the size of the patches.
@@ -31,26 +31,27 @@ Run random_dataset_gen.py to run the above steps sequentially.
   <em>Demo for random chosen labels</em>
 </p>
 
-## prarametizing  
--Change the parameters in tools/parameter.py.
+## Prarametizing  
+Change the parameters in tools/parameter.py.
 
-## verify image labeling  
+## Verify Image Labeling  
 run in terminal:  
 ```bash
 labelImg
 ```  
 see tutorial in https://github.com/HumanSignal/labelImg  
+this should give you a visualized result of dataset result
 
 ## Future Work  
 YOLO training with the dataset generated.
 
-## git maintanance
-### Fetch code  
+## Git Maintanance
+### Fetch Code  
 ```bash
 git pull  
 ``` 
 
-### Update git (change the lab to your name)  
+### Update Git (change the lab to your name)  
 ```bash
 git add .  
 git commit -m "Jerry"  
