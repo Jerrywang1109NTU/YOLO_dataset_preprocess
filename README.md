@@ -29,11 +29,12 @@ labelImg
 see tutorial in https://github.com/HumanSignal/labelImg
 
 # git maintanance
-1. Fetch code
+### Fetch code
 
 git pull 
 
-2. Update git (change the lab to your name)
+### Update git (change the lab to your name)
+
 git add .
 
 git commit -m "Jerry"
