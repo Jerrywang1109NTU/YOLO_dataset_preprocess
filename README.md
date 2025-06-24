@@ -12,7 +12,7 @@ Secondly, the images are modified according to the labels chosen, where the labe
 Thirdly, the images and labels are split according to the prefix id of the file, getting the YOLO format dataset.
 Run parity_dataset_gen.py to run the above steps sequentially.
 
-![Figure 1: Demo for parity chosen labels](parity_demo.png)
+<img src="parity_demo.png" width="600">
 
 ### random* files: to generate the dataset in which the labels are chosen according to parity
 Firstly, the labels are chosen randomly from the concentric lebel dataset, and the according label groups are generated in txt file with same prefix and different suffix, meaning same id but different batches. In this part, one can change the parameters w_l and h_l to control the w and h of the label box. Also, the number of bright and gray boxes, distance between boxes, and number of batches of label groups can be modified. 
@@ -22,7 +22,7 @@ Secondly, the images are modified according to the labels chosen, where the labe
 Thirdly, the images and labels are split according to the prefix id of the file, getting the YOLO format dataset.
 Run random_dataset_gen.py to run the above steps sequentially.
 
-![Figure 2: Demo for random chosen labels](random_demo.png)
+<img src="random_demo.png" width="600">
 
 ## prarametizing
 Change the parameters in tools/parameter.py.
