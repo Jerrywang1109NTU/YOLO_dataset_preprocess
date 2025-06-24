@@ -16,7 +16,7 @@ def classify_point(x, y, target_w, target_h):
     else:
         return target_h, target_w  # 横 patch
 
-def modify_wh_by_direction(label_dir, target_w, target_h):
+def modify_wh_by_direction(label_dir, w_l, h_l):
     for fname in os.listdir(label_dir):
         if not fname.endswith(".txt") or fname == "classes.txt":
             continue

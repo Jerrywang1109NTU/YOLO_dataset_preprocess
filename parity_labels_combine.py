@@ -43,9 +43,9 @@ def judge_direction(x, y):
 # 按方向决定 bright 的 w,h
 def classify_point(x, y):
     if judge_direction(x, y) == 0:  # 上
-        return 0.02, 0.05
+        return w_l, h_l
     else:  # 左/右
-        return 0.05, 0.02
+        return h_l, w_l
 
 # 修改并拆分 label
 def process_and_split_labels(input_dir, output_dir):
@@ -76,7 +76,7 @@ def process_and_split_labels(input_dir, output_dir):
                 if len(parts) == 5:
                     w, h = float(parts[3]), float(parts[4])
                 else:
-                    w, h = 0.02, 0.02  # 默认尺寸
+                    w, h = w_l, w_h  # 默认尺寸
 
                 new_line = f"1 {x:.6f} {y:.6f} {w:.6f} {h:.6f}"
 
@@ -110,4 +110,7 @@ merge_labels_with_suffix(gray_label_dir, bright_label_dir, mix_label_dir)
 process_and_split_labels(mix_label_dir, output_label_dir)
 
 from tools.modify_w_h import modify_wh_by_direction
-modify_wh_by_direction(output_label_dir, target_w=0.02, target_h=0.05)
+import tools.parameters as pr
+w_l = pr.w_l
+h_l = pr.h_l
+modify_wh_by_direction(output_label_dir, w_l, h_l)
