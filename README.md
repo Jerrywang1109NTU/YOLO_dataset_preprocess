@@ -1,7 +1,10 @@
 # YOLO_dataset_preprocess  
 
 ## Build Requirement  
-Python requirement: pip install -r requirement.txt
+Python requirement:
+```bash
+pip install -r requirement.txt
+```
 
 ## Files Statement
 ### Parity Prefix Files: to generate the dataset in which the labels are chosen according to parity  
