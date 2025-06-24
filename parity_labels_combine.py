@@ -1,5 +1,8 @@
 import os
 import shutil
+import tools.parameters as pr
+w_l = pr.w_l
+h_l = pr.h_l
 
 # 合并标签（加后缀）
 def merge_labels_with_suffix(gray_folder, bright_folder, output_folder):
@@ -76,7 +79,7 @@ def process_and_split_labels(input_dir, output_dir):
                 if len(parts) == 5:
                     w, h = float(parts[3]), float(parts[4])
                 else:
-                    w, h = w_l, w_h  # 默认尺寸
+                    w, h = w_l, h_l  # 默认尺寸
 
                 new_line = f"1 {x:.6f} {y:.6f} {w:.6f} {h:.6f}"
 
@@ -110,7 +113,4 @@ merge_labels_with_suffix(gray_label_dir, bright_label_dir, mix_label_dir)
 process_and_split_labels(mix_label_dir, output_label_dir)
 
 from tools.modify_w_h import modify_wh_by_direction
-import tools.parameters as pr
-w_l = pr.w_l
-h_l = pr.h_l
 modify_wh_by_direction(output_label_dir, w_l, h_l)
