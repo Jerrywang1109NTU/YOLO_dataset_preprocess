@@ -5,9 +5,11 @@
 ```bash
 git clone https://github.com/Jerrywang1109NTU/YOLO_dataset_preprocess.git
 cd YOLO_dataset_preprocess
+git init
 git config user.name "******"
 git config user.email "******"
 git config --global init.defaultBranch main
+......
 ```  
 - Python requirement:
 ```bash
