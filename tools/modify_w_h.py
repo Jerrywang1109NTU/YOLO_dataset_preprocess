@@ -36,7 +36,7 @@ def modify_wh_by_direction(label_dir, w_l, h_l):
             if not (0 <= x <= 1 and 0 <= y <= 1):
                 print(f"[⚠] 跳过越界行: {fname} -> {line.strip()}")
                 continue
-            w, h = classify_point(x, y, target_w, target_h)
+            w, h = classify_point(x, y, w_l, h_l)
             new_line = f"{cls} {x:.6f} {y:.6f} {w:.6f} {h:.6f}"
             new_lines.append(new_line)
         with open(file_path, 'w') as f:
