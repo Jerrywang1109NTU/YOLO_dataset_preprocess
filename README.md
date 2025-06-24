@@ -27,20 +27,16 @@ Run random_dataset_gen.py to run the above steps sequentially.
 ## prarametizing
 Change the parameters in tools/parameter.py.
 
-## verify image labeling 
-run in terminal:
-labelImg
-see tutorial in https://github.com/HumanSignal/labelImg
+## verify image labeling  
+run in terminal:  
+labelImg  
+see tutorial in https://github.com/HumanSignal/labelImg  
 
 ## git maintanance
-### Fetch code
+### Fetch code  
+git pull  
 
-git pull 
-
-### Update git (change the lab to your name)
-
-git add .
-
-git commit -m "Jerry"
-
+### Update git (change the lab to your name)  
+git add .  
+git commit -m "Jerry"  
 git push
