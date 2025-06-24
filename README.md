@@ -1,7 +1,15 @@
 # YOLO_dataset_preprocess  
 
 ## Build Requirement  
-Python requirement:
+- Clone github
+```bash
+git clone https://github.com/Jerrywang1109NTU/YOLO_dataset_preprocess.git
+cd YOLO_dataset_preprocess
+git config user.name "******"
+git config user.email "******"
+git config --global init.defaultBranch main
+```  
+- Python requirement:
 ```bash
 pip install -r requirement.txt
 ```
