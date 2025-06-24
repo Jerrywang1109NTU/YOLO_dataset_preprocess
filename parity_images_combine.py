@@ -49,10 +49,6 @@ for light in ['g']:  # bright, gray
 replacement_right = pr.replacement_right
 replacement_left = pr.replacement_left
 
-# 扩展为 BGR 三通道（将灰度图转换为 BGR）
-replacement_right = np.stack([replacement_right]*3, axis=-1)
-replacement_left = np.stack([replacement_left]*3, axis=-1)
-
 for dir_id in range(2):  # 0:上, 1:右, 2:下, 3:左
     light = 'b'
     if dir_id == 0:  # 上下方向
