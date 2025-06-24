@@ -91,4 +91,4 @@ from tools.modify_w_h import modify_wh_by_direction
 import tools.parameters as pr
 w_l = pr.w_l
 h_l = pr.h_l
-modify_wh_by_direction(output_label_dir, target_w=0.02, target_h=0.05)
+modify_wh_by_direction(output_label_dir, w_l, h_l)
