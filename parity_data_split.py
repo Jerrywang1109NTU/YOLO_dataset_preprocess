@@ -2,6 +2,7 @@ import os
 import shutil
 import argparse
 from collections import defaultdict
+import tools.parameters as pr
 
 # 固定的编号分组
 train_ids = {5, 16, 13, 32, 7, 23, 29, 18, 22, 40, 27, 14, 33, 20, 25, 39, 36, 34, 42, 1, 10, 37, 3, 6, 9, 28}
@@ -67,11 +68,15 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir):
     print(f"Test: {len(test_ids)} groups, {test_count} images")
     print(f"Valid: {len(valid_ids)} groups, {valid_count} images")
 
+
+YOLO_save_dir_image = pr.YOLO_save_dir_image
+YOLO_save_dir_label = pr.YOLO_save_dir_label
+
 parser = argparse.ArgumentParser(description="按编号划分图像和标签为 train/test/valid")
 parser.add_argument('--image_dir', type=str, default="dataset_parity/images_mix_parity_enh", help='图像源路径')
 parser.add_argument('--label_dir', type=str, default="dataset_parity/labels_mix_parity", help='标签源路径')
-parser.add_argument('--output_image_dir', type=str, default="dataset_0_bk/YOLO_data_6_24_0/images", help='图像输出路径')
-parser.add_argument('--output_label_dir', type=str, default="dataset_0_bk/YOLO_data_6_24_0/labels", help='标签输出路径')
+parser.add_argument('--output_image_dir', type=str, default=YOLO_save_dir_image, help='图像输出路径')
+parser.add_argument('--output_label_dir', type=str, default=YOLO_save_dir_label, help='标签输出路径')
 args = parser.parse_args()
 
 copy_and_split(args.image_dir, args.label_dir, args.output_image_dir, args.output_label_dir)
