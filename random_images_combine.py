@@ -50,10 +50,6 @@ for light in ['g']:  # bright, gray
 
 for dir_id in range(2):  # 0:上, 1:右, 2:下, 3:左
     light = 'b'
-    patch_path = os.path.join(patch_root, f"patch_texture_{light}_{dir_id}.png")
-    patch = cv2.imread(patch_path)
-    if patch is None:
-        raise FileNotFoundError(f"找不到 patch 文件: {patch_path}")
     if dir_id == 0:  # 上下方向
         patch = cv2.resize(replacement_left, (w_b, h_b))
     else:  # 左右方向
