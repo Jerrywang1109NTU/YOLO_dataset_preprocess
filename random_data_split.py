@@ -1,10 +1,11 @@
 import os
 import shutil
 import argparse
+import cv2
 from collections import defaultdict
 import tools.parameters as pr
 
-# 固定的编号分组
+# 固定编号组
 train_ids = {5, 16, 13, 32, 7, 23, 29, 18, 22, 40, 27, 14, 33, 20, 25, 39, 36, 34, 42, 1, 10, 37, 3, 6, 9, 28}
 test_ids = {17, 8, 30, 43, 24, 4, 26, 38}
 valid_ids = {2, 31, 12, 11, 15, 19, 21, 41, 35, 44}
@@ -21,17 +22,24 @@ def assign_group(base_name):
     else:
         return None
 
-# 文件复制主逻辑
-def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir):
-    groups = defaultdict(list)
+# 图像旋转函数
+def rotate_image(img, angle):
+    if angle == 90:
+        return cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
+    elif angle == 180:
+        return cv2.rotate(img, cv2.ROTATE_180)
+    elif angle == 270:
+        return cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    else:
+        return img
 
+# 文件复制主逻辑
+def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir, background_dir=None):
+    groups = defaultdict(list)
     image_files = [f for f in os.listdir(image_dir) if f.lower().endswith((".jpg", ".jpeg", ".png"))]
 
     for file in image_files:
-        if "_" in file:
-            base_name = file.split('_')[0]
-        else:
-            base_name = os.path.splitext(file)[0]
+        base_name = file.split('_')[0] if "_" in file else os.path.splitext(file)[0]
         groups[base_name].append(file)
 
     # 创建输出目录
@@ -39,7 +47,7 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir):
         os.makedirs(os.path.join(output_image_dir, subset), exist_ok=True)
         os.makedirs(os.path.join(output_label_dir, subset), exist_ok=True)
 
-    # 执行复制
+    # 复制图像和标签
     for base_name, file_list in groups.items():
         subset = assign_group(base_name)
         if subset is None:
@@ -58,7 +66,37 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir):
             if os.path.exists(label_src_path):
                 shutil.copy(label_src_path, label_dst_path)
 
-    # 统计
+    # 背景图处理
+    if background_dir:
+        bg_files = [f for f in os.listdir(background_dir) if f.endswith(".png")]
+        for bg_file in bg_files:
+            base_id = os.path.splitext(bg_file)[0]  # 改这里！直接取编号
+            subset = assign_group(base_id)
+            if subset is None:
+                print(f"⚠️ 背景图未知编号: {base_id}, 跳过。")
+                continue
+
+            bg_path = os.path.join(background_dir, bg_file)
+            img = cv2.imread(bg_path)
+            if img is None:
+                print(f"⚠️ 读取失败: {bg_path}")
+                continue
+
+            for angle in [0, 90, 180, 270]:
+                rotated = rotate_image(img, angle)
+                suffix = "" if angle == 0 else f"_r{angle}"
+                filename = f"{base_id}_bk{suffix}.png"
+                img_out_path = os.path.join(output_image_dir, subset, filename)
+                label_out_path = os.path.join(output_label_dir, subset, filename.replace(".png", ".txt"))
+
+                cv2.imwrite(img_out_path, rotated)
+                with open(label_out_path, 'w') as f:
+                    pass  # 写入空标签文件
+
+            print(f"✅ 背景图 {bg_file} 已完成旋转增强并写入")
+
+
+    # 统计数量
     train_count = sum(len(groups[str(i)]) for i in train_ids if str(i) in groups)
     test_count = sum(len(groups[str(i)]) for i in test_ids if str(i) in groups)
     valid_count = sum(len(groups[str(i)]) for i in valid_ids if str(i) in groups)
@@ -68,14 +106,20 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir):
     print(f"Test: {len(test_ids)} groups, {test_count} images")
     print(f"Valid: {len(valid_ids)} groups, {valid_count} images")
 
-YOLO_save_dir_image = pr.YOLO_save_dir_image
-YOLO_save_dir_label = pr.YOLO_save_dir_label
+# ========== 主程序入口 ==========
 
-parser = argparse.ArgumentParser(description="按编号划分图像和标签为 train/test/valid")
+parser = argparse.ArgumentParser(description="按编号划分图像和标签为 train/test/valid，并添加背景图像")
 parser.add_argument('--image_dir', type=str, default="dataset_random/images_mix_random_enh", help='图像源路径')
 parser.add_argument('--label_dir', type=str, default="dataset_random/labels_mix_random", help='标签源路径')
-parser.add_argument('--output_image_dir', type=str, default=YOLO_save_dir_image, help='图像输出路径')
-parser.add_argument('--output_label_dir', type=str, default=YOLO_save_dir_label, help='标签输出路径')
+parser.add_argument('--output_image_dir', type=str, default=pr.YOLO_save_dir_image, help='图像输出路径')
+parser.add_argument('--output_label_dir', type=str, default=pr.YOLO_save_dir_label, help='标签输出路径')
+parser.add_argument('--background_dir', type=str, default="dataset_mod", help='背景图路径')
 args = parser.parse_args()
 
-copy_and_split(args.image_dir, args.label_dir, args.output_image_dir, args.output_label_dir)
+copy_and_split(
+    args.image_dir,
+    args.label_dir,
+    args.output_image_dir,
+    args.output_label_dir,
+    args.background_dir
+)

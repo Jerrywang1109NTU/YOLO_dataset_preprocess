@@ -1,0 +1,2 @@
+git config --global user.email "runyan001@e.ntu.edu.sg"
+git config --global user.name "Jerrywang1109NTU"
