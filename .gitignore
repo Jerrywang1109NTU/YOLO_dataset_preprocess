@@ -1,3 +1,13 @@
 dataset_random/
 dataset_parity/
 dataset_0_bk/
+
+# 忽略 Python 编译文件
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# 忽略 tools 目录下的缓存
+tools/__pycache__/
+tools/**/*.pyc
