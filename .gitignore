@@ -1,6 +1,11 @@
 dataset_random/
 dataset_parity/
 dataset_0_bk/
+lama_github/
+lama.py
+input.png
+mask.png
+output_inpainted.png
 
 # 忽略 Python 编译文件
 __pycache__/
