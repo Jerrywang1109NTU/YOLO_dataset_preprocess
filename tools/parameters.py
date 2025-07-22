@@ -30,5 +30,5 @@ num_combinations = 40
 w_l = 0.04  # default width for labels
 h_l = 0.1  # default width and height for labels
 # saving files for YOLO format dataset
-YOLO_save_dir_image = "dataset_0_bk/YOLO_data_7_16_2_r/images"
-YOLO_save_dir_label = "dataset_0_bk/YOLO_data_7_16_2_r/labels"
+YOLO_save_dir_image = "dataset_0_bk/YOLO_data_7_20_0_p/images"
+YOLO_save_dir_label = "dataset_0_bk/YOLO_data_7_20_0_p/labels"
