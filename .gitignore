@@ -2,6 +2,8 @@ dataset_random/
 dataset_parity/
 dataset_0_bk/
 lama_github/
+final_output/
+lama_dataset/
 lama.py
 input.png
 mask.png
