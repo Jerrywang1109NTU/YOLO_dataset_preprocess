@@ -72,7 +72,7 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir, bac
 
     if background_dir:
         crop_w, crop_h = 256, 256         # 裁剪尺寸
-        crops_per_angle = 40               # 每个角度裁剪的数量
+        crops_per_angle = 0               # 每个角度裁剪的数量
 
         bg_files = [f for f in os.listdir(background_dir) if f.endswith(".png")]
         for bg_file in bg_files:

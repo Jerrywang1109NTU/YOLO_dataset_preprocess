@@ -4,6 +4,7 @@ import argparse
 import cv2
 from collections import defaultdict
 import tools.parameters as pr
+import numpy as np
 
 # 固定编号组
 train_ids = {5, 16, 13, 32, 7, 23, 29, 18, 22, 40, 27, 14, 33, 20, 25, 39, 36, 34, 42, 1, 10, 37, 3, 6, 9, 28}
@@ -68,9 +69,12 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir, bac
 
     # 背景图处理
     if background_dir:
+        crop_w, crop_h = 256, 256         # 裁剪尺寸
+        crops_per_angle = 0               # 每个角度裁剪的数量
+
         bg_files = [f for f in os.listdir(background_dir) if f.endswith(".png")]
         for bg_file in bg_files:
-            base_id = os.path.splitext(bg_file)[0]  # 改这里！直接取编号
+            base_id = os.path.splitext(bg_file)[0]
             subset = assign_group(base_id)
             if subset is None:
                 print(f"⚠️ 背景图未知编号: {base_id}, 跳过。")
@@ -84,16 +88,27 @@ def copy_and_split(image_dir, label_dir, output_image_dir, output_label_dir, bac
 
             for angle in [0, 90, 180, 270]:
                 rotated = rotate_image(img, angle)
-                suffix = "" if angle == 0 else f"_r{angle}"
-                filename = f"{base_id}_bk{suffix}.png"
-                img_out_path = os.path.join(output_image_dir, subset, filename)
-                label_out_path = os.path.join(output_label_dir, subset, filename.replace(".png", ".txt"))
+                h, w = rotated.shape[:2]
 
-                cv2.imwrite(img_out_path, rotated)
-                with open(label_out_path, 'w') as f:
-                    pass  # 写入空标签文件
+                if w < crop_w or h < crop_h:
+                    print(f"⚠️ 图像尺寸太小，无法裁剪: {bg_file} 旋转 {angle}°")
+                    continue
 
-            print(f"✅ 背景图 {bg_file} 已完成旋转增强并写入")
+                for idx in range(crops_per_angle):
+                    x = np.random.randint(0, w - crop_w + 1)
+                    y = np.random.randint(0, h - crop_h + 1)
+                    cropped = rotated[y:y + crop_h, x:x + crop_w]
+
+                    suffix = f"_r{angle}_c{idx}"
+                    filename = f"{base_id}_bk{suffix}.png"
+                    img_out_path = os.path.join(output_image_dir, subset, filename)
+                    label_out_path = os.path.join(output_label_dir, subset, filename.replace(".png", ".txt"))
+
+                    cv2.imwrite(img_out_path, cropped)
+                    with open(label_out_path, 'w') as f:
+                        pass  # 写空标签
+
+            print(f"✅ 背景图 {bg_file} 完成旋转 + 裁剪增强写入")
 
 
     # 统计数量

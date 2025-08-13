@@ -20,8 +20,8 @@ replacement_right = np.stack([replacement_right]*3, axis=-1)
 replacement_left = np.stack([replacement_left]*3, axis=-1)
 w_b = 8
 h_b = 10
-w_g = 15
-h_g = 30
+w_g = 10
+h_g = 20
 # these parameters are for random labels settings
 gray_count = 15
 bright_count = 15
@@ -30,5 +30,5 @@ num_combinations = 40
 w_l = 0.05  # default width for labels
 h_l = 0.12  # default width and height for labels
 # saving files for YOLO format dataset
-YOLO_save_dir_image = "dataset_0_bk/LAMA_data/images"
-YOLO_save_dir_label = "dataset_0_bk/LAMA_data/labels"
+YOLO_save_dir_image = "dataset_0_bk/YOLO_data_8_6_0_p/images"
+YOLO_save_dir_label = "dataset_0_bk/YOLO_data_8_6_0_p/labels"
