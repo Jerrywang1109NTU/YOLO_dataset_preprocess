@@ -4,6 +4,7 @@ dataset_0_bk/
 lama_github/
 final_output/
 lama_dataset/
+dataset_unmod/
 lama.py
 input.png
 mask.png
@@ -18,3 +19,5 @@ __pycache__/
 # 忽略 tools 目录下的缓存
 tools/__pycache__/
 tools/**/*.pyc
+
+!dataset_unmod/data_unenh_pruned
